@@ -132,7 +132,7 @@ function assignCluster()
 
 function findNearestCluster(x, y)
 {
-  let MinDis = 0;
+  let cluster_index = 0;
   let Min = Number.MAX_VALUE;
   let dis = 0;
   let cluster_ = "";
@@ -144,12 +144,12 @@ function findNearestCluster(x, y)
         if (dis < Min) 
         {
           Min = dis;
-          MinDis = i;
+          cluster_index = i;
         }
       }
   }
 
-  return index[MinDis];
+  return index[cluster_index];
 }
 
 function resetCentroids(centroid, cluster)
@@ -198,7 +198,6 @@ function changeNodesColor()
 }
 
 
-// Create 50 gray circles
 for (let i = 0; i < 50; i++) {
   intializeData(i);
 }
@@ -215,6 +214,15 @@ setTimeout(() => {
   resetCentroids(centroids.green, clusters.green);
   changeNodesColor();
 }, 5500);
+
+setTimeout(() => {
+  container.children.removeValue(centroids.red);
+  container.children.removeValue(centroids.green);
+  createClusterCentriod(centroids.blue, centroids.red.x(), centroids.red.y(), 20, -20);
+  createClusterCentriod(centroids.black, centroids.red.x(), centroids.red.y(), -20, +20);
+  createClusterCentriod(centroids.magenta, centroids.green.x(), centroids.green.y(), 20, -20);
+  createClusterCentriod(centroids.orange, centroids.green.x(), centroids.green.y(), -20, +20);
+} , 7500);
 
 
 
