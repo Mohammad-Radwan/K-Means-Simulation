@@ -41,7 +41,7 @@ let index = {
             5 : "orange"
             };
 
-let NumOfIterations = 50;
+let NumOfIterations = 10;
 
 
 
@@ -81,6 +81,7 @@ function main() {
         resetCentroids(centroids.magenta, clusters.magenta);
         resetCentroids(centroids.orange, clusters.orange);
         changeNodesColor();
+        clearClusterData();
       }, 9500 + i * 2000);
     }
 
@@ -260,6 +261,14 @@ function viewClusteringCompleted()
   });
   container.children.push(label);
 
+}
+
+function clearClusterData()
+{
+  for (let i = 0; i < 6; i++) 
+  {
+    clusters[index[i]] = [];
+  }
 }
 
 main();
