@@ -41,6 +41,54 @@ let index = {
             5 : "orange"
             };
 
+let NumOfIterations = 50;
+
+
+
+function main() {
+  for (let i = 0; i < 50; i++) {
+    intializeData(i);
+  }
+  setTimeout(() => {
+    let x, y;
+    [x, y] = CalcCentroid(nodes_);
+    createClusterCentriod(centroids.red, x, y, 20, -20);
+    createClusterCentriod(centroids.green, x, y, -20, +20);
+  }, 3500);
+
+  setTimeout(() => {
+    assignCluster();
+    resetCentroids(centroids.red, clusters.red);
+    resetCentroids(centroids.green, clusters.green);
+    changeNodesColor();
+  }, 5500);
+
+  setTimeout(() => {
+    container.children.removeValue(centroids.red);
+    container.children.removeValue(centroids.green);
+    createClusterCentriod(centroids.blue, centroids.red.x(), centroids.red.y(), 20, -20);
+    createClusterCentriod(centroids.black, centroids.red.x(), centroids.red.y(), -20, +20);
+    createClusterCentriod(centroids.magenta, centroids.green.x(), centroids.green.y(), 20, -20);
+    createClusterCentriod(centroids.orange, centroids.green.x(), centroids.green.y(), -20, +20);
+  } , 7500);
+
+  for (let i = 0; i < NumOfIterations; i++) 
+    {
+      setTimeout(() => {
+        assignCluster();
+        resetCentroids(centroids.blue, clusters.blue);
+        resetCentroids(centroids.black, clusters.black);
+        resetCentroids(centroids.magenta, clusters.magenta);
+        resetCentroids(centroids.orange, clusters.orange);
+        changeNodesColor();
+      }, 9500 + i * 2000);
+    }
+
+  setTimeout(() => {
+    viewClusteringCompleted();
+  }, 9500 + NumOfIterations * 2000);
+}
+
 function createCircle(radius, color, x, y)
 {
   var circle = am5.Circle.new(root, {
@@ -198,48 +246,20 @@ function changeNodesColor()
 }
 
 
-for (let i = 0; i < 50; i++) {
-  intializeData(i);
-}
-setTimeout(() => {
-  let x, y;
-  [x, y] = CalcCentroid(nodes_);
-  createClusterCentriod(centroids.red, x, y, 20, -20);
-  createClusterCentriod(centroids.green, x, y, -20, +20);
-}, 3500);
-
-setTimeout(() => {
-  assignCluster();
-  resetCentroids(centroids.red, clusters.red);
-  resetCentroids(centroids.green, clusters.green);
-  changeNodesColor();
-}, 5500);
-
-setTimeout(() => {
-  container.children.removeValue(centroids.red);
-  container.children.removeValue(centroids.green);
-  createClusterCentriod(centroids.blue, centroids.red.x(), centroids.red.y(), 20, -20);
-  createClusterCentriod(centroids.black, centroids.red.x(), centroids.red.y(), -20, +20);
-  createClusterCentriod(centroids.magenta, centroids.green.x(), centroids.green.y(), 20, -20);
-  createClusterCentriod(centroids.orange, centroids.green.x(), centroids.green.y(), -20, +20);
-} , 7500);
-
-
-
-function Hello()
+function viewClusteringCompleted()
 {
-    // Create a label
+  
   let label = am5.Label.new(root, {
-    text: "Hello, amCharts!",
+    text: "Clustering Completed",
     fontSize: 25,
     fontWeight: "bold",
     centerX: am5.percent(50),
     centerY: am5.percent(50),
     x: am5.percent(50),
-    y: am5.percent(50)
+    y: am5.percent(90)
   });
-
-  // Add label to the container
   container.children.push(label);
 
 }
+
+main();
