@@ -62,27 +62,6 @@ function distance(x1, y1, x2, y2) {
   return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
 }
 
-function calcMinDistance(x, y) 
-{
-  let MinDis = 0;
-  let Min = Number.MAX_VALUE;
-  let dis = 0;
-  for (let i = 1; i < 6; i++) 
-  {
-    if (container.children.indexOf(centroids[index[i]]) !== -1)
-      {
-        dis = distance(x, y, centroids[index[i]].x(), centroids[index[i]].y());
-        if (dis < Min) 
-        {
-          Min = dis;
-          MinDis = i;
-        }
-      }
-  }
-
-  return centroids.index[MinDis];
-}
-
 function intializeData(index) {
   node = createNode();
   container.children.push(node);
@@ -193,14 +172,28 @@ function resetCentroids(centroid, cluster)
   
 }
 
-function changeColor()
+
+function ChangeClusterColor(cluster, color)
+{
+  for (let i = 0; i < cluster.length; i++) 
+  {
+    cluster[i].animate({
+      key: "fill",
+      to: am5.color(color),
+      duration: 2000,
+      easing: am5.ease.out(am5.ease.quad)
+    });
+  }
+}
+
+function changeNodesColor()
 {
   for (let i = 0; i < 6; i++) 
   {
-    if (container.children.indexOf(centroids[index[i]]) == -1)
-      continue;
-
-    centroids[index[i]].set("fill", am5.color(color[i]));
+    if (container.children.indexOf(centroids[index[i]]) !== -1)
+    {
+      ChangeClusterColor(clusters[index[i]], color[i]);
+    }
   }
 }
 
@@ -220,6 +213,7 @@ setTimeout(() => {
   assignCluster();
   resetCentroids(centroids.red, clusters.red);
   resetCentroids(centroids.green, clusters.green);
+  changeNodesColor();
 }, 5500);
 
 
